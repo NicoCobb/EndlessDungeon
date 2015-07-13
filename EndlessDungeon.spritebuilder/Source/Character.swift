@@ -10,10 +10,11 @@ import Foundation
 
 class Character: CCSprite {
     
+    weak var characterBody: CCSprite!
     weak var sword: CCSprite!
     
     func didLoadFromCCB(){
-        self.physicsBody.collisionGroup = "Character"
         sword.physicsBody.collisionGroup = "Character"
+        characterBody.physicsBody.collisionGroup = "Character"
     }
 }

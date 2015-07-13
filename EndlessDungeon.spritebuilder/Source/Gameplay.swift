@@ -33,7 +33,7 @@ class Gameplay: CCNode {
     }
     
     func jump() {
-        character.
+         character.physicsBody.applyImpulse(ccp(0, 400))
     }
     
     func shield() {
