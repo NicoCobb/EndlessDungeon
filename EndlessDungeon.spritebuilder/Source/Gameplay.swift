@@ -12,7 +12,7 @@ class Gameplay: CCNode {
     
     weak var roomNode: CCNode!
     weak var gamePhysicsNode: CCPhysicsNode!
-    weak var character: Character!
+    weak var character: CCNode!
     
     func didLoadFromCCB() {
         userInteractionEnabled = true
