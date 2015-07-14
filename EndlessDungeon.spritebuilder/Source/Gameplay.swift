@@ -8,11 +8,12 @@
 
 import Foundation
 
-class Gameplay: CCNode {
+class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     
     weak var roomNode: CCNode!
     weak var gamePhysicsNode: CCPhysicsNode!
     weak var character: Character!
+    weak var testObject: TestObject!
     
     func didLoadFromCCB() {
         userInteractionEnabled = true
@@ -22,18 +23,23 @@ class Gameplay: CCNode {
         let level = CCBReader.load("Rooms/Room1")
         roomNode.addChild(level)
         
+        testObject.position = ccp(100, 100)
+        
     }
     
     func moveLeft() {
-        character.position.x -= 10
+//        character.position.x -= 100
+        testObject.position.x -= 100
     }
     
     func moveRight() {
-        character.position.x += 10
+//        character.position.x += 100
+        testObject.position.x += 100
+
     }
     
     func jump() {
-         character.physicsBody.applyImpulse(ccp(0, 400))
+//         character.physicsBody.applyImpulse(ccp(0, 400))
     }
     
     func shield() {
