@@ -35,8 +35,8 @@ class Character: CCSprite {
             characterBody.flipX = true
             characterSword.flipX = true
             flipX = true
-            characterSword.position = ccp(characterSword.position.x - CGFloat(scaleX) * CGFloat(characterSword.contentSize.width), characterSword.position.y)
-//            sword.position.x -= CGFloat(scaleX) * CGFloat(sword.contentSize.width)
+//            characterSword.position = ccp(characterSword.position.x - CGFloat(scaleX) * CGFloat(characterSword.contentSize.width), characterSword.position.y)
+            characterSword.position.x -= CGFloat(scaleX) * CGFloat(characterSword.contentSize.width)
         }
         position.x -= CGFloat(moveSpeed)
         
@@ -47,7 +47,8 @@ class Character: CCSprite {
             characterBody.flipX = false
             characterSword.flipX = false
             flipX = false
-            characterSword.position = ccp(characterSword.position.x - CGFloat(scaleX) * CGFloat(characterSword.contentSize.width), characterSword.position.y)
+//            characterSword.position = ccp(characterSword.position.x - CGFloat(scaleX) * CGFloat(characterSword.contentSize.width), characterSword.position.y)
+            characterSword.position.x -= CGFloat(scaleX) * CGFloat(characterSword.contentSize.width)
         }
         position.x += CGFloat(moveSpeed)
     }

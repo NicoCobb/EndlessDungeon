@@ -21,13 +21,16 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     weak var buttonJump: CCButton!
     weak var buttonShield: CCButton!
     weak var character: Character!
-    weak var background: CCNode!
+    weak var background: CCSprite!
     weak var scoreLabel: CCLabelTTF!
     weak var coinLabel: CCLabelTTF!
     weak var contentNode: CCNode!
+    weak var buttonNode: CCNode!
+//    weak var enemy: Enemy!
     
     var coinCount = 0
     var scoreCount = 0
+    var actionFollow: CCActionFollow?
     
     let screenSize: CGRect = UIScreen.mainScreen().bounds
     let screenWidth = UIScreen.mainScreen().bounds.width
@@ -44,11 +47,15 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         
         character.position = ccp(300, 150)
         
+        actionFollow = CCActionFollow(target: character, worldBoundary: background.boundingBox())
+//        roomNode.runAction(actionFollow)
+        contentNode.runAction(actionFollow)
     }
 
     
 //MARK: Collisions
-    //collision of hero with obstacles
+    
+    //character and coin collision
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterBody: CCSprite!, coin: Coin!) -> Bool {
         coinCount++
         coinLabel.string = "\(coinCount)"
@@ -59,13 +66,17 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         return false
     }
 
+    //sword and coin collision
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterSword: CCSprite!, coin: Coin!) -> Bool {
         return false
     }
     
+    //sword and enemy collision
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterSword: CCSprite!, enemy: Enemy!) -> Bool {
         if character.damage > enemy.health {
             enemy.removeFromParent()
+            scoreCount += 10
+            scoreLabel.string = "\(scoreCount)"
             return false
         }
         else {
@@ -74,6 +85,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         }
     }
     
+    //character body and enemy collision
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterBody: CCNode!, enemy: Enemy!) -> Bool {
         character.physicsBody.applyImpulse(ccp(100, 100))
         return true
@@ -83,7 +95,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
 //    func moveLeft() {
 //        character.position.x -= 100
 //    }
-    
+//    
 //    func moveRight() {
 //        character.position = ccp(character.position.x + 100, character.position.y)
 //        println(character.position.x)
@@ -99,31 +111,41 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     }
     
     override func update(delta: CCTime) {
+        
+        //move character by checking if right/left buttons are highlighted
         if buttonLeft.highlighted {
             if character.canMoveLeft {
                 character.moveLeft()
             }
-        }
-        
-        if buttonRight.highlighted {
+        } else if buttonRight.highlighted {
             if character.canMoveRight {
                 character.moveRight()
             }
         }
         
-        if character.position.x <= 0 {
+        //check for character is at left boundary
+        if character.position.x <= 10 {
             character.canMoveLeft = false
         }
+        else if character.position.x >= 10 {
+                character.canMoveLeft = true
+            }
         
-        if character.position.x >= screenWidth - 10 {
+        //check for if character is at right boundary
+        if character.position.x >= background.boundingBox().width - 10 {
             character.canMoveRight = false
         }
-        
-        if character.position.x >= screenWidth * 0.75 {
-            contentNode.position.x -= CGFloat(character.moveSpeed)
-//            roomNode.position.x -= CGFloat(character.moveSpeed)
-            character.position.x -= CGFloat(character.moveSpeed)
+        else if character.position.x <= background.boundingBox().width - 10 {
+            character.canMoveRight = true
         }
+        
+//        if character.position.x >= screenWidth * 0.75 {
+//            contentNode.position.x -= CGFloat(character.moveSpeed)
+//            println(enemy.position)
+//            roomNode.position.x -= CGFloat(character.moveSpeed)
+//            character.position.x -= CGFloat(character.moveSpeed)
+//        }
         
     }
 }
+
