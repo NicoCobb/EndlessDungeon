@@ -26,6 +26,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     weak var coinLabel: CCLabelTTF!
     weak var contentNode: CCNode!
     weak var buttonNode: CCNode!
+    weak var coinAnimated: CoinAnimation!
 //    weak var enemy: Enemy!
     
     var coinCount = 0
@@ -48,7 +49,6 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         character.position = ccp(300, 150)
         
         actionFollow = CCActionFollow(target: character, worldBoundary: background.boundingBox())
-//        roomNode.runAction(actionFollow)
         contentNode.runAction(actionFollow)
     }
 
@@ -60,10 +60,10 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         coinCount++
         coinLabel.string = "\(coinCount)"
         if coin.notCollected{
+            println("Collecting coin")
             coin.collect()
         }
-        
-        return false
+        return true
     }
 
     //sword and coin collision
@@ -73,7 +73,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     
     //sword and enemy collision
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterSword: CCSprite!, enemy: Enemy!) -> Bool {
-        if character.damage > enemy.health {
+        if character.damage >= enemy.health {
             enemy.removeFromParent()
             scoreCount += 10
             scoreLabel.string = "\(scoreCount)"
@@ -84,6 +84,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
             return true
         }
     }
+    
     
     //character body and enemy collision
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterBody: CCNode!, enemy: Enemy!) -> Bool {
@@ -110,16 +111,23 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         
     }
     
+//MARK: Misc
+
+    
     override func update(delta: CCTime) {
         
         //move character by checking if right/left buttons are highlighted
         if buttonLeft.highlighted {
             if character.canMoveLeft {
+                character.characterState = .Left
                 character.moveLeft()
+//                println(character.characterSword.position.x)
             }
         } else if buttonRight.highlighted {
             if character.canMoveRight {
+                character.characterState = .Right
                 character.moveRight()
+//                println(character.characterSword.position.x)
             }
         }
         
@@ -134,17 +142,11 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         //check for if character is at right boundary
         if character.position.x >= background.boundingBox().width - 10 {
             character.canMoveRight = false
+            
         }
         else if character.position.x <= background.boundingBox().width - 10 {
             character.canMoveRight = true
         }
-        
-//        if character.position.x >= screenWidth * 0.75 {
-//            contentNode.position.x -= CGFloat(character.moveSpeed)
-//            println(enemy.position)
-//            roomNode.position.x -= CGFloat(character.moveSpeed)
-//            character.position.x -= CGFloat(character.moveSpeed)
-//        }
         
     }
 }

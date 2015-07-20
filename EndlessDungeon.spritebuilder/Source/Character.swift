@@ -8,6 +8,10 @@
 
 import Foundation
 
+enum State {
+    case Left, Right
+}
+
 class Character: CCSprite {
     
     weak var characterBody: CCSprite!
@@ -18,38 +22,46 @@ class Character: CCSprite {
     var moveSpeed = 3
     var damage = 1
     var health = 1
+    var characterState: State = .Right {
+        didSet {
+            if characterState == .Right {
+                characterBody.flipX = false
+                characterSword.flipX = false
+            }
+            else if characterState == .Left {
+                characterBody.flipX = true
+                characterSword.flipX = true
+            }
+        }
+    }
     
     func didLoadFromCCB(){
         physicsBody.collisionGroup = "Character"
         characterSword.physicsBody.collisionGroup = "Character"
         characterBody.physicsBody.collisionGroup = "Character"
+        
     }
     
     override func update(delta: CCTime) {
-        characterBody.position = ccp(8,8)
-        characterSword.position = ccp(10,6)
+        if characterState == .Right{
+            characterBody.position = ccp(8,8)
+            characterSword.position = ccp(10,6)
+        } else if characterState == .Right {
+            characterBody.position = ccp(8,8)
+            //if only change x position, will not follow when y cooridnate changed
+            //(basically, if i jump while facing left, the sword will stay on the ground)
+            characterSword.position = ccp(-10,6)
+
+        }
+        
     }
     
     func moveLeft() {
-        if characterBody.flipX == false {
-            characterBody.flipX = true
-            characterSword.flipX = true
-            flipX = true
-//            characterSword.position = ccp(characterSword.position.x - CGFloat(scaleX) * CGFloat(characterSword.contentSize.width), characterSword.position.y)
-            characterSword.position.x -= CGFloat(scaleX) * CGFloat(characterSword.contentSize.width)
-        }
         position.x -= CGFloat(moveSpeed)
         
     }
     
     func moveRight() {
-        if characterBody.flipX == true {
-            characterBody.flipX = false
-            characterSword.flipX = false
-            flipX = false
-//            characterSword.position = ccp(characterSword.position.x - CGFloat(scaleX) * CGFloat(characterSword.contentSize.width), characterSword.position.y)
-            characterSword.position.x -= CGFloat(scaleX) * CGFloat(characterSword.contentSize.width)
-        }
         position.x += CGFloat(moveSpeed)
     }
     

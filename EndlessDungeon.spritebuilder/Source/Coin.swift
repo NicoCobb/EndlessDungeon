@@ -17,16 +17,20 @@ class Coin: CCSprite {
     }
     
     func collect() {
-        physicsBody.sensor = true
-        physicsBody.affectedByGravity = false
         notCollected = false
-            
-        animationManager.runAnimationsForSequenceNamed("collected")
-            
-            var delay = CCActionDelay(duration: 1)
-            var remove = CCActionCallBlock(block: {self.removeFromParent()})
-            
-            runAction(CCActionSequence(array: [delay, remove]))
-        
+        var coinAnimated = CCBReader.load("CoinAnimation")
+        coinAnimated.position = self.position
+        parent.addChild(coinAnimated)
+        removeFromParent()
+//        physicsBody.sensor = true
+//        physicsBody.affectedByGravity = false
+//        
+//        animationManager.runAnimationsForSequenceNamed("collected")
+//            
+//        var delay = CCActionDelay(duration: 1)
+//        var remove = CCActionCallBlock(block: {self.removeFromParent()})
+//            
+//        runAction(CCActionSequence(array: [delay, remove]))
+//        
     }
 }

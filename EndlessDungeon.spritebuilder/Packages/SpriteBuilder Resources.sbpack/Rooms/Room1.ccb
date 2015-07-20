@@ -1060,7 +1060,7 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>381.33529663085938</real>
+							<real>323.26095581054688</real>
 							<real>96.86614990234375</real>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -1089,6 +1089,8 @@
 						<string>Coin.ccb</string>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -1122,8 +1124,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>485.46368408203125</real>
-							<real>158.09507751464844</real>
+							<real>223.24928283691406</real>
+							<real>96.86614990234375</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
