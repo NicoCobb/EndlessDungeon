@@ -20,7 +20,14 @@ class DoorRoom: CCNode {
         doorPlus1.doorLabel.string = "+1"
         doorPlus3.doorLabel.string = "+3"
         doorPlus5.doorLabel.string = "+5"
-        doorExit.doorLabel.string = "EXIT"
+        doorExit.doorLabel.string = "Exit"
         doorSpecial.doorLabel.string = "BOSS"
+        
+        doorPlus1.currentDoorState = .PlusOne
+        doorPlus3.currentDoorState = .PlusThree
+        doorPlus5.currentDoorState = .PlusFive
+        doorExit.currentDoorState = .Exit
+        doorSpecial.currentDoorState = .Special
+        
     }
 }

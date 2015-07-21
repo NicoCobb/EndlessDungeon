@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum State {
+enum charState {
     case Left, Right
 }
 
@@ -22,7 +22,7 @@ class Character: CCSprite {
     var moveSpeed = 3
     var damage = 1
     var health = 1
-    var characterState: State = .Right {
+    var characterState: charState = .Right {
         didSet {
             if characterState == .Right {
                 characterBody.position = ccp(8,8)
