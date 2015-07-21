@@ -10,4 +10,6 @@ import Foundation
 
 class Door: CCSprite {
     
+    weak var doorLabel: CCLabelTTF!
+    
 }

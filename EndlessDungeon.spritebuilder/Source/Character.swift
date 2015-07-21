@@ -25,12 +25,16 @@ class Character: CCSprite {
     var characterState: State = .Right {
         didSet {
             if characterState == .Right {
+                characterBody.position = ccp(8,8)
+                characterSword.position = ccp(10,6)
                 characterBody.flipX = false
                 characterSword.flipX = false
             }
             else if characterState == .Left {
                 characterBody.flipX = true
                 characterSword.flipX = true
+                characterBody.position = ccp(8,8)
+                characterSword.position = ccp(-10,6)
             }
         }
     }
@@ -46,7 +50,7 @@ class Character: CCSprite {
         if characterState == .Right{
             characterBody.position = ccp(8,8)
             characterSword.position = ccp(10,6)
-        } else if characterState == .Right {
+        } else if characterState == .Left {
             characterBody.position = ccp(8,8)
             //if only change x position, will not follow when y cooridnate changed
             //(basically, if i jump while facing left, the sword will stay on the ground)
@@ -56,13 +60,16 @@ class Character: CCSprite {
         
     }
     
-    func moveLeft() {
+    func runLeft() {
+        if canMoveLeft {
         position.x -= CGFloat(moveSpeed)
-        
+        }
     }
     
-    func moveRight() {
+    func runRight() {
+        if canMoveRight {
         position.x += CGFloat(moveSpeed)
+        }
     }
     
 }

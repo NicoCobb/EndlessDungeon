@@ -19,7 +19,6 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     weak var buttonRight: CCButton!
     weak var buttonLeft: CCButton!
     weak var buttonJump: CCButton!
-    weak var buttonShield: CCButton!
     weak var character: Character!
     weak var background: CCSprite!
     weak var scoreLabel: CCLabelTTF!
@@ -27,10 +26,13 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     weak var contentNode: CCNode!
     weak var buttonNode: CCNode!
     weak var coinAnimated: CoinAnimation!
-//    weak var enemy: Enemy!
+    weak var doors: DoorRoom!
+//    weak var groundPiece: CCSprite!
     
     var coinCount = 0
     var scoreCount = 0
+    var levelCount = 1
+    var roomNumber = 1
     var actionFollow: CCActionFollow?
     
     let screenSize: CGRect = UIScreen.mainScreen().bounds
@@ -40,16 +42,21 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     func didLoadFromCCB() {
         
         userInteractionEnabled = true
+        buttonRight.userInteractionEnabled = false
+        buttonLeft.userInteractionEnabled = false
+//MARK: DebugDraw
         gamePhysicsNode.debugDraw = true
         gamePhysicsNode.collisionDelegate = self
         
-        let level = CCBReader.load("Rooms/Room1", owner: self)
+        let level = CCBReader.load("Rooms/Test", owner: self)
         roomNode.addChild(level)
         
         character.position = ccp(300, 150)
         
         actionFollow = CCActionFollow(target: character, worldBoundary: background.boundingBox())
         contentNode.runAction(actionFollow)
+        
+        generateEnemies()
     }
 
     
@@ -60,7 +67,6 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         coinCount++
         coinLabel.string = "\(coinCount)"
         if coin.notCollected{
-            println("Collecting coin")
             coin.collect()
         }
         return true
@@ -74,15 +80,28 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     //sword and enemy collision
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterSword: CCSprite!, enemy: Enemy!) -> Bool {
         if character.damage >= enemy.health {
-            enemy.removeFromParent()
+            //add score
             scoreCount += 10
             scoreLabel.string = "\(scoreCount)"
+            
+            //sometimes spawn coin when enemy dies
+            var random = CCRANDOM_0_1()
+            if random <= 0.5 {
+                var newCoin = CCBReader.load("Coin")
+                newCoin.position = enemy.position
+                newCoin.scale = 0.3
+                gamePhysicsNode.addChild(newCoin)
+            }
+            
+            enemy.removeFromParent()
             return false
         }
+            
         else {
             enemy.health -= character.damage
             return true
         }
+        
     }
     
     
@@ -93,14 +112,13 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     }
     
 //MARK: buttons
-//    func moveLeft() {
-//        character.position.x -= 100
-//    }
-//    
-//    func moveRight() {
-//        character.position = ccp(character.position.x + 100, character.position.y)
-//        println(character.position.x)
-//    }
+    func turnLeft() {
+        character.characterState = .Left
+    }
+
+    func turnRight() {
+        character.characterState = .Right
+    }
     
     
     func jump() {
@@ -113,22 +131,52 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     
 //MARK: Misc
 
+    func generateEnemies() {
+        var randomEnemyCount = arc4random_uniform(UInt32(levelCount)) + 1
+        var enemyArray: [Enemy]
+        
+//        for enemyNumber in 0...randomEnemyCount {
+//            
+//            var spawnedEnemy: Enemy
+//            spawnedEnemy = CCBReader.load("Enemies/Enemy1") as! Enemy
+//            let enemyYPosition = clampf(Float(spawnedEnemy.position.y), Float(groundPiece.contentSize.height), Float(background.contentSize.height))
+//            let enemyXPosition = clampf(Float(spawnedEnemy.position.x), 30, Float(background.contentSize.width))
+//            spawnedEnemy.position = ccp(CGFloat(enemyXPosition), CGFloat(enemyYPosition))
+//            
+//            parent.addChild(spawnedEnemy)
+//        }
+        
+    }
+    
+    override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
+        touchMoved(touch, withEvent: event)
+    }
+    
+    override func touchMoved(touch: CCTouch!, withEvent event: CCTouchEvent!) {
+        let touchLocation = touch.locationInNode(buttonNode)
+        
+        //implementation for left button
+    
+        if CGRectContainsPoint(buttonLeft.boundingBox(), touchLocation) {
+            buttonLeft.highlighted = true
+            buttonRight.highlighted = false
+            turnLeft()
+        }
+        
+        if CGRectContainsPoint(buttonRight.boundingBox(), touchLocation) {
+            buttonRight.highlighted = true
+            buttonLeft.highlighted = false
+            turnRight()
+        }
+    }
+
     
     override func update(delta: CCTime) {
-        
-        //move character by checking if right/left buttons are highlighted
-        if buttonLeft.highlighted {
-            if character.canMoveLeft {
-                character.characterState = .Left
-                character.moveLeft()
-//                println(character.characterSword.position.x)
-            }
-        } else if buttonRight.highlighted {
-            if character.canMoveRight {
-                character.characterState = .Right
-                character.moveRight()
-//                println(character.characterSword.position.x)
-            }
+        //constant movement
+        if character.characterState == .Right {
+            character.runRight()
+        } else if character.characterState == .Left {
+            character.runLeft()
         }
         
         //check for character is at left boundary

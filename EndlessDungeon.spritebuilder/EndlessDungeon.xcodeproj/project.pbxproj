@@ -13,6 +13,7 @@
 		772F35DE1B569CD9008FED69 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772F35DD1B569CD9008FED69 /* Enemy.swift */; };
 		772F35E21B56DED8008FED69 /* Door.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772F35E11B56DED8008FED69 /* Door.swift */; };
 		772F35F01B599D14008FED69 /* CoinAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772F35EF1B599D14008FED69 /* CoinAnimation.swift */; };
+		77D92BFD1B5D336F00C15807 /* DoorRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D92BFC1B5D336F00C15807 /* DoorRoom.swift */; };
 		77EDB6A61B54335C00742E4B /* Gameplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EDB6A51B54335C00742E4B /* Gameplay.swift */; };
 		77EDB6AC1B54395600742E4B /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EDB6AB1B54395600742E4B /* Character.swift */; };
 		7A046D7919E84ED5004C4763 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A046D7519E84C36004C4763 /* MainScene.swift */; };
@@ -168,6 +169,7 @@
 		772F35DD1B569CD9008FED69 /* Enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Enemy.swift; path = Source/Enemy.swift; sourceTree = "<group>"; };
 		772F35E11B56DED8008FED69 /* Door.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Door.swift; path = Source/Door.swift; sourceTree = "<group>"; };
 		772F35EF1B599D14008FED69 /* CoinAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoinAnimation.swift; path = Source/CoinAnimation.swift; sourceTree = "<group>"; };
+		77D92BFC1B5D336F00C15807 /* DoorRoom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoorRoom.swift; path = Source/DoorRoom.swift; sourceTree = "<group>"; };
 		77EDB6A51B54335C00742E4B /* Gameplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Gameplay.swift; path = Source/Gameplay.swift; sourceTree = "<group>"; };
 		77EDB6AB1B54395600742E4B /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Character.swift; path = Source/Character.swift; sourceTree = "<group>"; };
 		7A046D7519E84C36004C4763 /* MainScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainScene.swift; path = Source/MainScene.swift; sourceTree = "<group>"; };
@@ -449,6 +451,7 @@
 				7A40362019DDEF0D007B6E8F /* Platforms */,
 				772F35EF1B599D14008FED69 /* CoinAnimation.swift */,
 				772F35E11B56DED8008FED69 /* Door.swift */,
+				77D92BFC1B5D336F00C15807 /* DoorRoom.swift */,
 				772F35DB1B55D0D9008FED69 /* Coin.swift */,
 				772F35DD1B569CD9008FED69 /* Enemy.swift */,
 				7A046D7519E84C36004C4763 /* MainScene.swift */,
@@ -830,6 +833,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77D92BFD1B5D336F00C15807 /* DoorRoom.swift in Sources */,
 				772F35DE1B569CD9008FED69 /* Enemy.swift in Sources */,
 				772F35E21B56DED8008FED69 /* Door.swift in Sources */,
 				772F35DC1B55D0D9008FED69 /* Coin.swift in Sources */,
