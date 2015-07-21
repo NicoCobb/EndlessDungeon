@@ -27,7 +27,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     weak var buttonNode: CCNode!
     weak var coinAnimated: CoinAnimation!
     weak var doors: DoorRoom!
-//    weak var groundPiece: CCSprite!
+    weak var groundPiece: CCSprite!
     
     var coinCount = 0
     var scoreCount = 0
@@ -42,13 +42,14 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     func didLoadFromCCB() {
         
         userInteractionEnabled = true
+        multipleTouchEnabled = true
         buttonRight.userInteractionEnabled = false
         buttonLeft.userInteractionEnabled = false
 //MARK: DebugDraw
         gamePhysicsNode.debugDraw = true
         gamePhysicsNode.collisionDelegate = self
         
-        let level = CCBReader.load("Rooms/Test", owner: self)
+        let level = CCBReader.load("Rooms/Room\(roomNumber)", owner: self)
         roomNode.addChild(level)
         
         character.position = ccp(300, 150)
@@ -133,18 +134,21 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
 
     func generateEnemies() {
         var randomEnemyCount = arc4random_uniform(UInt32(levelCount)) + 1
-        var enemyArray: [Enemy]
         
-//        for enemyNumber in 0...randomEnemyCount {
-//            
-//            var spawnedEnemy: Enemy
-//            spawnedEnemy = CCBReader.load("Enemies/Enemy1") as! Enemy
-//            let enemyYPosition = clampf(Float(spawnedEnemy.position.y), Float(groundPiece.contentSize.height), Float(background.contentSize.height))
-//            let enemyXPosition = clampf(Float(spawnedEnemy.position.x), 30, Float(background.contentSize.width))
-//            spawnedEnemy.position = ccp(CGFloat(enemyXPosition), CGFloat(enemyYPosition))
-//            
-//            parent.addChild(spawnedEnemy)
-//        }
+        for enemyNumber in 0...randomEnemyCount {
+            var spawnedEnemy: Enemy
+            var groundHeight = groundPiece.contentSize.height
+            var groundWidth = groundPiece.contentSize.width
+            var backgroundHeight = background.contentSize.height
+            var backgroundWidth = background.contentSize.width
+            
+            spawnedEnemy = CCBReader.load("Enemies/Enemy1") as! Enemy
+            let enemyXPosition = arc4random_uniform(UInt32(backgroundWidth - groundWidth)) + UInt32(groundWidth)
+            let enemyYPosition = arc4random_uniform(UInt32(backgroundHeight - groundHeight)) + UInt32(groundHeight)
+            spawnedEnemy.position = ccp(CGFloat(enemyXPosition), CGFloat(enemyYPosition))
+            
+            gamePhysicsNode.addChild(spawnedEnemy)
+        }
         
     }
     
