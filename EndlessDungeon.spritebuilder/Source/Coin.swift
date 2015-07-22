@@ -13,7 +13,7 @@ class Coin: CCSprite {
     var notCollected = true
     
     func didLoadFromCCB() {
-
+        physicsBody.collisionGroup = "Coin"
     }
     
     func collect() {

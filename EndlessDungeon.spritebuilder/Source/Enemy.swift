@@ -8,9 +8,13 @@
 
 import Foundation
 
+enum enemySubTyping {
+    case Grounded, Aerial, Ghosting
+}
+
 class Enemy: CCSprite {
-    
     var damage = 1
     var health = 1
-    
+    var enemySpeed = 2
+    var enemySubType : enemySubTyping = .Grounded
 }
