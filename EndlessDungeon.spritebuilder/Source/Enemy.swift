@@ -17,4 +17,10 @@ class Enemy: CCSprite {
     var health = 1
     var enemySpeed = 2
     var enemySubType : enemySubTyping = .Grounded
+    weak var characterReference: CCSprite!
+    weak var backgroundReference: CCSprite!
+    
+    func move() {
+        
+    }
 }

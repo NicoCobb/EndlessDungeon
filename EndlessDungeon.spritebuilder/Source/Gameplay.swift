@@ -38,12 +38,12 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     var scoreCount = 0
     var levelNumber = 1
     var roomNumber = 1
-    var totalRooms = 2
-    var totalEnemyTypes = 1
+    var totalRooms = 3
+    var totalEnemyTypes = 2
     var actionFollow: CCActionFollow?
     var currentDoor: Door?
     var room: CCNode!
-    
+
     let screenSize: CGRect = UIScreen.mainScreen().bounds
     let screenWidth = UIScreen.mainScreen().bounds.width
     let screenHeight = UIScreen.mainScreen().bounds.height
@@ -56,7 +56,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         buttonLeft.userInteractionEnabled = false
         buttonContinue.userInteractionEnabled = false
 //MARK: DebugDraw
-        gamePhysicsNode.debugDraw = true
+//        gamePhysicsNode.debugDraw = true
         gamePhysicsNode.collisionDelegate = self
         
         room = CCBReader.load("Rooms/Room\(roomNumber)", owner: self)
@@ -119,7 +119,23 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     
     //character body and enemy collision
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterBody: CCSprite!, enemy: Enemy!) -> Bool {
-        character.physicsBody.applyImpulse(ccp(100, 100))
+        if character.invulnerable == true {
+            return false
+        }
+        
+        if character.characterState == .Right {
+            character.physicsBody.applyImpulse(ccp(100, 100))
+        } else {
+            character.physicsBody.applyImpulse(ccp(-100, 100))
+        }
+        
+        character.physicsBody.velocity.x = CGFloat(clampf(Float(character.physicsBody.velocity.x), Float(-100), Float(100.0)))
+        character.physicsBody.velocity.y = CGFloat(clampf(Float(character.physicsBody.velocity.y), Float(0), Float(100.0)))
+        
+        character.becomeInvulnerable()
+        var invulnerableTime = CCActionDelay(duration: 1)
+        var changeInvulnerableState = CCActionCallFunc(target: character, selector: "endInvulnerable")
+        runAction(CCActionSequence(array: [invulnerableTime, changeInvulnerableState]))
         return true
     }
     
@@ -177,6 +193,15 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     
 //MARK: Misc
 
+    func setCharacterPosition(nextLevel: UInt32) {
+        if nextLevel == 1 || nextLevel == 2 {
+            character.position = ccp(150, 150)
+        }
+        if nextLevel == 3 {
+            character.position = ccp(150, 270)
+        }
+    }
+    
     func setSpecialDoor() {
         if (levelNumber % 10) >= 5 {
             doors.doorSpecial.visible = true
@@ -189,7 +214,8 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     func loadNextLevel() {
         room.removeFromParent()
         //new value
-        let nextRoomNumber = arc4random_uniform(UInt32(totalRooms)) + 1
+//        let nextRoomNumber = arc4random_uniform(UInt32(totalRooms)) + 1
+        let nextRoomNumber: UInt32 = 3
         println("NextRoomNumber: \(nextRoomNumber)")
         room = CCBReader.load("Rooms/Room\(nextRoomNumber)", owner: self)
         roomNode.addChild(room)
@@ -197,7 +223,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         actionFollow = CCActionFollow(target: character, worldBoundary: background.boundingBox())
         contentNode.runAction(actionFollow)
         
-        character.position = ccp(300, 150)
+        setCharacterPosition(nextRoomNumber)
         generateEnemies()
         setSpecialDoor()
     }
@@ -219,10 +245,11 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     }
     
     func generateEnemies() {
-        var randomEnemyCount = arc4random_uniform(UInt32(levelNumber)) + 1
-        var randomEnemyTypeNumber = Int(arc4random_uniform(UInt32(totalEnemyTypes)) + 1)
+//        var randomEnemyCount = arc4random_uniform(UInt32(levelNumber)) + 1
+        var randomEnemyCount = 40
         
         for enemyNumber in 0...randomEnemyCount {
+            var randomEnemyTypeNumber = Int(arc4random_uniform(UInt32(totalEnemyTypes)) + 1)
             var groundHeight = groundPiece.contentSize.height
             var groundWidth = groundPiece.contentSize.width
             var backgroundHeight = background.contentSize.height
@@ -231,25 +258,25 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
             var enemyYPosition: UInt32
             var enemySpawnPoint: CGPoint
             var spawnedEnemy = CCBReader.load("Enemies/Slime") as! Enemy
-            var enemyDict: [Int : String] = [1: "Slime"]
+            var enemyDict: [Int : String] = [1: "Slime" , 2: "Bat"]
+            
+            //optional unwrapping for string to find enemy file
             if let enemyFileTypeString = enemyDict[randomEnemyTypeNumber] {
+                println(enemyFileTypeString)
                 spawnedEnemy = CCBReader.load("Enemies/\(enemyFileTypeString)") as! Enemy
+//                allEnemiesSingleton.sharedInstance.allEnemies?.append(spawnedEnemy)
             }
 
             //place enemy
-            if spawnedEnemy.enemySubType == .Grounded {
-                enemyXPosition = arc4random_uniform(UInt32(backgroundWidth - groundWidth)) + UInt32(groundWidth)
-                enemyYPosition = UInt32(groundHeight)
-                enemySpawnPoint = ccp(CGFloat(enemyXPosition), CGFloat(enemyYPosition))
-            } else {
                 enemyXPosition = arc4random_uniform(UInt32(backgroundWidth - groundWidth)) + UInt32(groundWidth)
                 enemyYPosition = arc4random_uniform(UInt32(backgroundHeight - groundHeight)) + UInt32(groundHeight)
                 enemySpawnPoint = ccp(CGFloat(enemyXPosition), CGFloat(enemyYPosition))
-            }
             
             //adjust enemy position in case it is on top of another enemy or the character on spawn
 //            if background.boundingBox().contains(enemySpawnPoint)
             
+            spawnedEnemy.characterReference = character
+            spawnedEnemy.backgroundReference = background
             spawnedEnemy.position = enemySpawnPoint
             
             gamePhysicsNode.addChild(spawnedEnemy)

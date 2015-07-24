@@ -22,11 +22,12 @@ class Character: CCSprite {
     var moveSpeed = 3
     var damage = 1
     var health = 1
+    var invulnerable = false
     var characterState: charState = .Right {
         didSet {
             if characterState == .Right {
                 characterBody.position = ccp(8,8)
-                characterSword.position = ccp(10,6)
+                characterSword.position = ccp(10,8)
                 characterBody.flipX = false
                 characterSword.flipX = false
             }
@@ -34,7 +35,7 @@ class Character: CCSprite {
                 characterBody.flipX = true
                 characterSword.flipX = true
                 characterBody.position = ccp(8,8)
-                characterSword.position = ccp(-10,6)
+                characterSword.position = ccp(-10,8)
             }
         }
     }
@@ -49,12 +50,12 @@ class Character: CCSprite {
     override func update(delta: CCTime) {
         if characterState == .Right{
             characterBody.position = ccp(8,8)
-            characterSword.position = ccp(10,6)
+            characterSword.position = ccp(10,8)
         } else if characterState == .Left {
             characterBody.position = ccp(8,8)
             //if only change x position, will not follow when y cooridnate changed
             //(basically, if i jump while facing left, the sword will stay on the ground)
-            characterSword.position = ccp(-10,6)
+            characterSword.position = ccp(-10,8)
 
         }
         
@@ -70,6 +71,26 @@ class Character: CCSprite {
         if canMoveRight {
         position.x += CGFloat(moveSpeed)
         }
+    }
+    
+    func becomeInvulnerable() {
+        invulnerable = true
+//        if allEnemiesSingleton.sharedInstance().allEnemies != nil {
+//            for enemy in allEnemiesSingleton.instance {
+//                enemy.physicsBody.collisionGroup = "Character"
+//            }
+//        }
+        println("now invulerable")
+    }
+    
+    func endInvulnerable() {
+        invulnerable = false
+//        if allEnemiesSingleton.sharedInstance().allEnemies != nil {
+//            for enemy in allEnemiesSingleton.sharedInstance().allEnemies {
+//                enemy.physicsBody.collisionGroup = nil
+//            }
+//        }
+        println("no longer invulnerable")
     }
     
 }
