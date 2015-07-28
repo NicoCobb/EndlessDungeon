@@ -140,6 +140,8 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
                 } else if random <= 0.6 {
                     var newFood = CCBReader.load("Food") as! Food
                     newFood.position = enemy.position
+                    newFood.scale = 0.4
+                    gamePhysicsNode.addChild(newFood)
                 }
                 
                 enemy.removeFromParent()
@@ -202,6 +204,11 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         
     }
     
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterBody: CCSprite!, ground: CCSprite!) -> Bool {
+        character.jumpsLeft = character.maxJumps
+        return true
+    }
+    
     //character body and door collision
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterBody: CCSprite!, door: Door!) -> Bool {
         replaceJumpWithContinue()
@@ -228,7 +235,10 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     }
     
     func jump() {
-        character.physicsBody.applyImpulse(ccp(0, 400))
+        if character.jumpsLeft > 0 {
+            character.physicsBody.applyImpulse(ccp(0, 400))
+            character.jumpsLeft -= 1
+        }
     }
     
     func enterDoor() {
@@ -299,7 +309,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     }
     
     func setSpecialDoor() {
-        if (levelNumber % 10) >= 5 {
+        if (levelNumber % 20) >= 15 {
             doors.doorSpecial.visible = true
         } else {
             doors.doorSpecial.visible = false
@@ -342,8 +352,9 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     }
     
     func generateEnemies() {
-//        var randomEnemyCount = arc4random_uniform(UInt32(levelNumber)) + 1
+        var increaseEnemyCount = UInt32((levelNumber % 20) / 2)
         var randomEnemyCount: UInt32
+        
         if roomNumber == 1 {
             randomEnemyCount = arc4random_uniform(UInt32(5)) + 2
         } else if roomNumber == 2 {
@@ -351,11 +362,15 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         } else {
             randomEnemyCount = arc4random_uniform(UInt32(10)) + 20
         }
+        randomEnemyCount += increaseEnemyCount
         
-        var chanceOfHigherDifficulty = arc4random_uniform(UInt32(levelNumber))
         
         for enemyNumber in 0...randomEnemyCount {
             var randomEnemyTypeNumber = Int(arc4random_uniform(UInt32(totalEnemyTypes)) + 1)
+            var chanceOfHigherDifficulty = arc4random_uniform(UInt32(levelNumber % 2))
+            var raiseDifficultyCurve = Int(levelNumber / 20)
+            var enemyDifficultyFinal = 0
+            
             var groundHeight = groundPiece.contentSize.height
             var groundWidth = groundPiece.contentSize.width
             var backgroundHeight = background.contentSize.height
@@ -365,6 +380,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
             var enemySpawnPoint: CGPoint
             var spawnedEnemy = CCBReader.load("Enemies/Slime") as! Enemy
             var enemyDict: [Int : String] = [1: "Slime" , 2: "Bat"]
+            var enemyDifficultyDict: [Int : enemyDifficultyLevel] = [1: .Lowest , 2: .Lower , 3: .Middle , 4: .Higher , 5: .Highest]
             
             //optional unwrapping for string to find enemy file
             if let enemyFileTypeString = enemyDict[randomEnemyTypeNumber] {
@@ -374,6 +390,11 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
             }
             
             //set the difficulty level of the enemies
+            if ((levelNumber % 20) / 10) >= 1 {
+                enemyDifficultyFinal = Int(chanceOfHigherDifficulty) + raiseDifficultyCurve
+            } else {
+                enemyDifficultyFinal = raiseDifficultyCurve
+            }
             
 
             //place enemy
@@ -387,6 +408,10 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
             spawnedEnemy.characterReference = character
             spawnedEnemy.backgroundReference = background
             spawnedEnemy.position = enemySpawnPoint
+            if let enemyDiff = enemyDifficultyDict[enemyDifficultyFinal] {
+                spawnedEnemy.enemyDifficulty = enemyDiff
+            }
+            
             
             gamePhysicsNode.addChild(spawnedEnemy)
         }
@@ -439,6 +464,15 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         }
         else if character.position.x <= background.boundingBox().width - 10 {
             character.canMoveRight = true
+        }
+        
+        //check if character is under the level
+        if character.position.y <= background.boundingBox().height {
+            userInteractionEnabled = false
+            self.paused = true
+            
+            var gameOverScreen = CCBReader.load("GameOver", owner: self) as! GameOver
+            self.addChild(gameOverScreen)
         }
         
     }

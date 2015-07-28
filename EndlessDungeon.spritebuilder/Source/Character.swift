@@ -23,6 +23,8 @@ class Character: CCSprite {
     var damage = 1
     var maxHealth = 5
     var health = 5
+    var maxJumps = 1
+    var jumpsLeft = 1
     var invulnerable = false
     var characterState: charState = .Right {
         didSet {
