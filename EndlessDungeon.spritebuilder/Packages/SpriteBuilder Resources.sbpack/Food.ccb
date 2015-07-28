@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>1</integer>
+	<integer>2</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -24,9 +24,9 @@
 	<key>fileVersion</key>
 	<integer>4</integer>
 	<key>gridspaceHeight</key>
-	<integer>10</integer>
+	<integer>64</integer>
 	<key>gridspaceWidth</key>
-	<integer>10</integer>
+	<integer>64</integer>
 	<key>guides</key>
 	<array/>
 	<key>joints</key>
@@ -40,7 +40,7 @@
 		<key>children</key>
 		<array/>
 		<key>customClass</key>
-		<string>Bat</string>
+		<string>Food</string>
 		<key>displayName</key>
 		<string>CCSprite</string>
 		<key>memberVarAssignmentName</key>
@@ -50,24 +50,19 @@
 		<key>physicsBody</key>
 		<dict>
 			<key>affectedByGravity</key>
-			<false/>
+			<true/>
 			<key>allowsRotation</key>
 			<false/>
 			<key>bodyShape</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>collisionCategories</key>
-			<array>
-				<string>enemy</string>
-			</array>
+			<array/>
 			<key>collisionMask</key>
-			<array>
-				<string>ground</string>
-				<string>character</string>
-			</array>
+			<array/>
 			<key>collisionType</key>
-			<string>enemy</string>
+			<string>food</string>
 			<key>cornerRadius</key>
-			<real>0.0</real>
+			<real>32.5</real>
 			<key>density</key>
 			<real>1</real>
 			<key>dynamic</key>
@@ -79,43 +74,12 @@
 			<key>points</key>
 			<array>
 				<array>
-					<real>0.0</real>
-					<real>0.0</real>
-				</array>
-				<array>
-					<real>0.0</real>
-					<real>83</real>
-				</array>
-				<array>
-					<real>85</real>
-					<real>83</real>
-				</array>
-				<array>
-					<real>85</real>
-					<real>0.0</real>
+					<real>32.5</real>
+					<real>32</real>
 				</array>
 			</array>
 			<key>polygons</key>
-			<array>
-				<array>
-					<array>
-						<real>85</real>
-						<real>0.0</real>
-					</array>
-					<array>
-						<real>85</real>
-						<real>83</real>
-					</array>
-					<array>
-						<real>0.0</real>
-						<real>83</real>
-					</array>
-					<array>
-						<real>0.0</real>
-						<real>0.0</real>
-					</array>
-				</array>
-			</array>
+			<array/>
 		</dict>
 		<key>properties</key>
 		<array>
@@ -148,8 +112,8 @@
 				<string>Point</string>
 				<key>value</key>
 				<array>
-					<real>0.5</real>
-					<real>0.5</real>
+					<real>0.0</real>
+					<real>0.0</real>
 				</array>
 			</dict>
 			<dict>
@@ -173,7 +137,7 @@
 				<key>value</key>
 				<array>
 					<string></string>
-					<string>Temp Assets/Shield-Front@4x.png</string>
+					<string>Temp Assets/Donut-1@4x.png</string>
 				</array>
 			</dict>
 			<dict>

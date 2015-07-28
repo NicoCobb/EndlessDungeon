@@ -63,9 +63,15 @@
 					<key>bodyShape</key>
 					<integer>0</integer>
 					<key>collisionCategories</key>
-					<array/>
+					<array>
+						<string>character</string>
+					</array>
 					<key>collisionMask</key>
-					<array/>
+					<array>
+						<string>coin</string>
+						<string>ground</string>
+						<string>enemy</string>
+					</array>
 					<key>collisionType</key>
 					<string>characterBody</string>
 					<key>cornerRadius</key>
@@ -211,6 +217,8 @@
 						<array/>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -236,9 +244,13 @@
 					<key>bodyShape</key>
 					<integer>0</integer>
 					<key>collisionCategories</key>
-					<array/>
+					<array>
+						<string>character</string>
+					</array>
 					<key>collisionMask</key>
-					<array/>
+					<array>
+						<string>enemy</string>
+					</array>
 					<key>collisionType</key>
 					<string>characterSword</string>
 					<key>cornerRadius</key>
@@ -384,8 +396,6 @@
 						<array/>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>

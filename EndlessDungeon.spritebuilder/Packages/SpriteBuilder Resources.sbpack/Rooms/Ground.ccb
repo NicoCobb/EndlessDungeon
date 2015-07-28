@@ -56,11 +56,17 @@
 			<key>bodyShape</key>
 			<integer>0</integer>
 			<key>collisionCategories</key>
-			<array/>
+			<array>
+				<string>ground</string>
+			</array>
 			<key>collisionMask</key>
-			<array/>
+			<array>
+				<string>enemy</string>
+				<string>character</string>
+				<string>coin</string>
+			</array>
 			<key>collisionType</key>
-			<string></string>
+			<string>ground</string>
 			<key>cornerRadius</key>
 			<real>0.0</real>
 			<key>density</key>

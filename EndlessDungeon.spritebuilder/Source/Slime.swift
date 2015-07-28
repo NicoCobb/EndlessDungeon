@@ -13,10 +13,8 @@ class Slime: Enemy {
     var lastDirection: CGFloat!
     var changeDirectionBufferSpace : CGFloat = 40
     
-    func didLoadFromCCB() {
-        enemySpeed = 1
-        health = 1
-        damage = 1
+    override func didLoadFromCCB() {
+        super.didLoadFromCCB()
         enemySubType = .Grounded
         lastDirection = CGFloat(enemySpeed)
         moveDown()

@@ -727,9 +727,14 @@
 			<key>bodyShape</key>
 			<integer>0</integer>
 			<key>collisionCategories</key>
-			<array/>
+			<array>
+				<string>coin</string>
+			</array>
 			<key>collisionMask</key>
-			<array/>
+			<array>
+				<string>ground</string>
+				<string>character</string>
+			</array>
 			<key>collisionType</key>
 			<string>coin</string>
 			<key>cornerRadius</key>

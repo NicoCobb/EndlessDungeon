@@ -29,6 +29,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     weak var background: CCSprite!
     weak var scoreLabel: CCLabelTTF!
     weak var coinLabel: CCLabelTTF!
+    weak var healthLabel: CCLabelTTF!
 
     weak var coinAnimated: CoinAnimation!
     weak var doors: DoorRoom!
@@ -37,12 +38,24 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     var coinCount = 0
     var scoreCount = 0
     var levelNumber = 1
-    var roomNumber = 1
+    var roomNumber = 3
     var totalRooms = 3
     var totalEnemyTypes = 2
     var actionFollow: CCActionFollow?
     var currentDoor: Door?
     var room: CCNode!
+    var characterHitFlag = false {
+        didSet {
+            if character.health <= 0 {
+                userInteractionEnabled = false
+                self.paused = true
+                
+                var gameOverScreen = CCBReader.load("GameOver", owner: self) as! GameOver
+                self.addChild(gameOverScreen)
+            }
+        }
+    }
+    
 
     let screenSize: CGRect = UIScreen.mainScreen().bounds
     let screenWidth = UIScreen.mainScreen().bounds.width
@@ -56,13 +69,15 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         buttonLeft.userInteractionEnabled = false
         buttonContinue.userInteractionEnabled = false
 //MARK: DebugDraw
-//        gamePhysicsNode.debugDraw = true
+        gamePhysicsNode.debugDraw = true
         gamePhysicsNode.collisionDelegate = self
         
         room = CCBReader.load("Rooms/Room\(roomNumber)", owner: self)
         roomNode.addChild(room)
         
         character.position = ccp(300, 150)
+        
+        healthLabel.string = "\(character.health) / \(character.maxHealth)"
         
         actionFollow = CCActionFollow(target: character, worldBoundary: background.boundingBox())
         contentNode.runAction(actionFollow)
@@ -89,54 +104,102 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         return false
     }
     
-    //sword and enemy collision
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterSword: CCSprite!, enemy: Enemy!) -> Bool {
-        if character.damage >= enemy.health {
-            //add score
-            scoreCount += 10
-            scoreLabel.string = "\(scoreCount)"
-            
-            //sometimes spawn coin when enemy dies
-            var random = CCRANDOM_0_1()
-            if random <= 0.5 {
-                var newCoin = CCBReader.load("Coin") as! Coin
-                newCoin.position = enemy.position
-                newCoin.scale = 0.3
-                gamePhysicsNode.addChild(newCoin)
-            }
-            
-            enemy.removeFromParent()
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterBody: Character!, food: Food!) -> Bool {
+        food.physicsBody.sensor = true
+        if character.health < character.maxHealth {
+            character.health += 1
+            healthLabel.string = "\(character.health) / \(character.maxHealth)"
+        } else {
             return false
         }
-            
-        else {
-            enemy.health -= character.damage
-            return true
+        food.removeFromParent()
+        return false
+    }
+    
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterSword: CCSprite!, food: Food!) -> Bool {
+        return false
+    }
+    
+    //sword and enemy collision
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterSword: CCSprite!, enemy: Enemy!) -> Bool {
+        if enemy != nil && enemy.enemyCollisionHappening == false {
+            enemy.enemyCollisionHappening = true
+            println("did collide with sword")
+            if character.damage >= enemy.health {
+                //add score
+                scoreCount += 10
+                scoreLabel.string = "\(scoreCount)"
+                
+                //sometimes spawn coin when enemy dies
+                var random = CCRANDOM_0_1()
+                if random <= 0.4 {
+                    var newCoin = CCBReader.load("Coin") as! Coin
+                    newCoin.position = enemy.position
+                    newCoin.scale = 0.3
+                    gamePhysicsNode.addChild(newCoin)
+                } else if random <= 0.6 {
+                    var newFood = CCBReader.load("Food") as! Food
+                    newFood.position = enemy.position
+                }
+                
+                enemy.removeFromParent()
+                enemy.enemyCollisionHappening = false
+                return false
+            }
+                
+            else {
+                enemy.health -= character.damage
+                enemy.enemyCollisionHappening = false
+                return true
+            }
         }
-        
+        enemy.enemyCollisionHappening = false
+        return false
     }
     
     
     //character body and enemy collision
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterBody: CCSprite!, enemy: Enemy!) -> Bool {
-        if character.invulnerable == true {
-            return false
+        if enemy != nil && enemy.enemyCollisionHappening == false {
+            enemy.enemyCollisionHappening = true
+            //nothing happens if character is invulnerable
+            if character.invulnerable == true {
+                return false
+            }
+            
+            //knock character backwards and limit how far he is hit
+            if character.characterState == .Right {
+                character.physicsBody.applyImpulse(ccp(100, 100))
+            } else {
+                character.physicsBody.applyImpulse(ccp(-100, 100))
+            }
+            character.physicsBody.velocity.x = CGFloat(clampf(Float(character.physicsBody.velocity.x), Float(-100), Float(100.0)))
+            character.physicsBody.velocity.y = CGFloat(clampf(Float(character.physicsBody.velocity.y), Float(0), Float(100.0)))
+            
+            //make the character take damage and die if takes too much
+            character.health -= enemy.damage
+            characterHitFlag = true
+            healthLabel.string = "\(character.health) / \(character.maxHealth)"
+            println(character.health)
+            
+            //        if character.health <= 0 {
+            //            userInteractionEnabled = false
+            //            self.paused = true
+            //
+            //            var gameOverScreen = CCBReader.load("GameOver", owner: self) as! GameOver
+            //            self.addChild(gameOverScreen)
+            //        }
+            
+            //enable invulnerability for set amount of time on hit
+            character.becomeInvulnerable()
+            var invulnerableTime = CCActionDelay(duration: 1)
+            var changeInvulnerableState = CCActionCallFunc(target: character, selector: "endInvulnerable")
+            runAction(CCActionSequence(array: [invulnerableTime, changeInvulnerableState]))
+            enemy.enemyCollisionHappening = false
+            return true
         }
-        
-        if character.characterState == .Right {
-            character.physicsBody.applyImpulse(ccp(100, 100))
-        } else {
-            character.physicsBody.applyImpulse(ccp(-100, 100))
-        }
-        
-        character.physicsBody.velocity.x = CGFloat(clampf(Float(character.physicsBody.velocity.x), Float(-100), Float(100.0)))
-        character.physicsBody.velocity.y = CGFloat(clampf(Float(character.physicsBody.velocity.y), Float(0), Float(100.0)))
-        
-        character.becomeInvulnerable()
-        var invulnerableTime = CCActionDelay(duration: 1)
-        var changeInvulnerableState = CCActionCallFunc(target: character, selector: "endInvulnerable")
-        runAction(CCActionSequence(array: [invulnerableTime, changeInvulnerableState]))
         return true
+        
     }
     
     //character body and door collision
@@ -190,9 +253,42 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         roomNumber++
         loadNextLevel()
     }
+
+//MARK: Game Over Button Methods
+    func returnToMenu() {
+        character.health = character.maxHealth
+        
+        userInteractionEnabled = true
+        removeChildByName("GameOver")
+        let mainScene = CCBReader.loadAsScene("MainScene")
+        CCDirector.sharedDirector().presentScene(mainScene)
+    }
+    
+    func retryDungeon() {
+        character.health = character.maxHealth
+        
+//        userInteractionEnabled = true
+//        removeChildByName("GameOver")
+        let gamePlayScene = CCBReader.loadAsScene("Gameplay")
+        CCDirector.sharedDirector().presentScene(gamePlayScene)
+    }
+    
     
 //MARK: Misc
 
+    func showRoom() {
+        let actionMoveToLevel = CCActionMoveTo(duration: 1, position: CGPoint(x: -(background.boundingBox().origin.x), y: 0.0))
+        //        contentNode.runAction(actionMoveToLevel)
+        
+        // contentNode.stopAction(actionMoveToLevel)
+        
+        let actionMoveToStart = CCActionMoveTo(duration: 1, position: CGPoint.zeroPoint)
+        //        contentNode.runAction(actionMoveToStart)
+        
+        let sequence = CCActionSequence(array: [actionMoveToLevel,actionMoveToStart])
+        runAction(sequence)
+    }
+    
     func setCharacterPosition(nextLevel: UInt32) {
         if nextLevel == 1 || nextLevel == 2 {
             character.position = ccp(150, 150)
@@ -226,6 +322,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         setCharacterPosition(nextRoomNumber)
         generateEnemies()
         setSpecialDoor()
+        showRoom()
     }
     
     func replaceJumpWithContinue() {
@@ -246,7 +343,16 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     
     func generateEnemies() {
 //        var randomEnemyCount = arc4random_uniform(UInt32(levelNumber)) + 1
-        var randomEnemyCount = 40
+        var randomEnemyCount: UInt32
+        if roomNumber == 1 {
+            randomEnemyCount = arc4random_uniform(UInt32(5)) + 2
+        } else if roomNumber == 2 {
+            randomEnemyCount = arc4random_uniform(UInt32(5)) + 5
+        } else {
+            randomEnemyCount = arc4random_uniform(UInt32(10)) + 20
+        }
+        
+        var chanceOfHigherDifficulty = arc4random_uniform(UInt32(levelNumber))
         
         for enemyNumber in 0...randomEnemyCount {
             var randomEnemyTypeNumber = Int(arc4random_uniform(UInt32(totalEnemyTypes)) + 1)
@@ -264,8 +370,11 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
             if let enemyFileTypeString = enemyDict[randomEnemyTypeNumber] {
                 println(enemyFileTypeString)
                 spawnedEnemy = CCBReader.load("Enemies/\(enemyFileTypeString)") as! Enemy
-//                allEnemiesSingleton.sharedInstance.allEnemies?.append(spawnedEnemy)
+            //allEnemiesSingleton.sharedInstance.allEnemies?.append(spawnedEnemy)
             }
+            
+            //set the difficulty level of the enemies
+            
 
             //place enemy
                 enemyXPosition = arc4random_uniform(UInt32(backgroundWidth - groundWidth)) + UInt32(groundWidth)
