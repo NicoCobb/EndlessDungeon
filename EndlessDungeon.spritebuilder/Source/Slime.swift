@@ -42,10 +42,24 @@ class Slime: Enemy {
     
     func moveDown() {
         var placeOnGround = CCActionMoveTo(duration: 1.0/60.0, position: ccp(position.x, 0))
+        runAction(placeOnGround)
+    }
+    
+    func checkGroundEdgeAndMove() {
+        if lastDirection == -CGFloat(enemySpeed) {
+            if currentGroundReference != nil && position.x <= currentGroundReference.position.x + 10 {
+                move()
+            }
+        } else if lastDirection == CGFloat(enemySpeed) {
+            if currentGroundReference != nil && position.x >= currentGroundReference.position.x - 10 {
+                move()
+            }
+        }
+        
     }
     
     override func update(delta: CCTime) {
-        move()
+        checkGroundEdgeAndMove()
         
 //        var delay = CCActionDelay(duration: 2)
 //        var startMove = CCActionCallBlock(block: {self.schedule("move", interval: 1.0/60.0)})

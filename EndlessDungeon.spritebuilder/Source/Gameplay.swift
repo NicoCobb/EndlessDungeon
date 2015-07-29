@@ -37,8 +37,8 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     
     var coinCount = 0
     var scoreCount = 0
-    var levelNumber = 1
-    var roomNumber = 3
+    var levelNumber = 60
+    var roomNumber = 1
     var totalRooms = 3
     var totalEnemyTypes = 2
     var actionFollow: CCActionFollow?
@@ -55,6 +55,8 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
             }
         }
     }
+    var enemyDict: [Int : String] = [1: "Slime" , 2: "Bat"]
+    var enemyDifficultyDict: [Int : enemyDifficultyLevel] = [1: .Lowest , 2: .Lower , 3: .Middle , 4: .Higher , 5: .Highest]
     
 
     let screenSize: CGRect = UIScreen.mainScreen().bounds
@@ -69,7 +71,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         buttonLeft.userInteractionEnabled = false
         buttonContinue.userInteractionEnabled = false
 //MARK: DebugDraw
-        gamePhysicsNode.debugDraw = true
+//        gamePhysicsNode.debugDraw = true
         gamePhysicsNode.collisionDelegate = self
         
         room = CCBReader.load("Rooms/Room\(roomNumber)", owner: self)
@@ -110,13 +112,14 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
             character.health += 1
             healthLabel.string = "\(character.health) / \(character.maxHealth)"
         } else {
+            food.removeFromParent()
             return false
         }
         food.removeFromParent()
         return false
     }
     
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterSword: CCSprite!, food: Food!) -> Bool {
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterSword: CCNode!, food: CCNode!) -> Bool {
         return false
     }
     
@@ -124,7 +127,6 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterSword: CCSprite!, enemy: Enemy!) -> Bool {
         if enemy != nil && enemy.enemyCollisionHappening == false {
             enemy.enemyCollisionHappening = true
-            println("did collide with sword")
             if character.damage >= enemy.health {
                 //add score
                 scoreCount += 10
@@ -136,12 +138,12 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
                     var newCoin = CCBReader.load("Coin") as! Coin
                     newCoin.position = enemy.position
                     newCoin.scale = 0.3
-                    gamePhysicsNode.addChild(newCoin)
-                } else if random <= 0.6 {
+                    roomNode.addChild(newCoin)
+                } else if random <= 0.9 {
                     var newFood = CCBReader.load("Food") as! Food
                     newFood.position = enemy.position
                     newFood.scale = 0.4
-                    gamePhysicsNode.addChild(newFood)
+                    roomNode.addChild(newFood)
                 }
                 
                 enemy.removeFromParent()
@@ -225,6 +227,13 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         currentDoor = nil
     }
     
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, enemy: Enemy!, ground: CCSprite!) -> Bool {
+        if enemy.enemySubType == .Grounded {
+            enemy.currentGroundReference = ground
+        }
+        return true
+    }
+    
 //MARK: buttons
     func turnLeft() {
         character.characterState = .Left
@@ -260,7 +269,6 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
             levelNumber += levelNumber % 10
         }
         
-        roomNumber++
         loadNextLevel()
     }
 
@@ -286,20 +294,8 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     
 //MARK: Misc
 
-    func showRoom() {
-        let actionMoveToLevel = CCActionMoveTo(duration: 1, position: CGPoint(x: -(background.boundingBox().origin.x), y: 0.0))
-        //        contentNode.runAction(actionMoveToLevel)
-        
-        // contentNode.stopAction(actionMoveToLevel)
-        
-        let actionMoveToStart = CCActionMoveTo(duration: 1, position: CGPoint.zeroPoint)
-        //        contentNode.runAction(actionMoveToStart)
-        
-        let sequence = CCActionSequence(array: [actionMoveToLevel,actionMoveToStart])
-        runAction(sequence)
-    }
     
-    func setCharacterPosition(nextLevel: UInt32) {
+    func setCharacterPosition(nextLevel: Int) {
         if nextLevel == 1 || nextLevel == 2 {
             character.position = ccp(150, 150)
         }
@@ -318,21 +314,25 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     }
     
     func loadNextLevel() {
+        roomNode.removeAllChildren()
         room.removeFromParent()
         //new value
-//        let nextRoomNumber = arc4random_uniform(UInt32(totalRooms)) + 1
-        let nextRoomNumber: UInt32 = 3
+        let nextRoomNumber = Int(arc4random_uniform(UInt32(totalRooms)) + 1)
         println("NextRoomNumber: \(nextRoomNumber)")
         room = CCBReader.load("Rooms/Room\(nextRoomNumber)", owner: self)
         roomNode.addChild(room)
         
         actionFollow = CCActionFollow(target: character, worldBoundary: background.boundingBox())
         contentNode.runAction(actionFollow)
+        roomNumber = nextRoomNumber
+        
+        //reset jump
+        character.jumpsLeft = character.maxJumps
         
         setCharacterPosition(nextRoomNumber)
         generateEnemies()
         setSpecialDoor()
-        showRoom()
+        println("jumps left on loadNextLevel: \(character.jumpsLeft)")
     }
     
     func replaceJumpWithContinue() {
@@ -353,39 +353,41 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     
     func generateEnemies() {
         var increaseEnemyCount = UInt32((levelNumber % 20) / 2)
-        var randomEnemyCount: UInt32
+        var randomEnemyCount: UInt32 = 0
+        var groundHeight = groundPiece.contentSize.height
+        var groundWidth = groundPiece.contentSize.width
+        var backgroundHeight = background.contentSize.height
+        var backgroundWidth = background.contentSize.width
         
+        //decide how many enemies will be generated on entering the level
         if roomNumber == 1 {
-            randomEnemyCount = arc4random_uniform(UInt32(5)) + 2
+            randomEnemyCount = arc4random_uniform(5) + 2
         } else if roomNumber == 2 {
-            randomEnemyCount = arc4random_uniform(UInt32(5)) + 5
+            randomEnemyCount = arc4random_uniform(5) + 5
         } else {
-            randomEnemyCount = arc4random_uniform(UInt32(10)) + 20
+            randomEnemyCount = arc4random_uniform(10) + 20
         }
         randomEnemyCount += increaseEnemyCount
+        println("increase enemy count: \(increaseEnemyCount)")
+        println("Enemies loaded into room: \(randomEnemyCount)")
         
-        
+        //create however many enemies are in randomEnemyCount
         for enemyNumber in 0...randomEnemyCount {
             var randomEnemyTypeNumber = Int(arc4random_uniform(UInt32(totalEnemyTypes)) + 1)
             var chanceOfHigherDifficulty = arc4random_uniform(UInt32(levelNumber % 2))
             var raiseDifficultyCurve = Int(levelNumber / 20)
             var enemyDifficultyFinal = 0
             
-            var groundHeight = groundPiece.contentSize.height
-            var groundWidth = groundPiece.contentSize.width
-            var backgroundHeight = background.contentSize.height
-            var backgroundWidth = background.contentSize.width
-            var enemyXPosition: UInt32
-            var enemyYPosition: UInt32
-            var enemySpawnPoint: CGPoint
+            //place enemy
+            var enemyXPosition = CGFloat(arc4random_uniform(UInt32(backgroundWidth - groundWidth)) + UInt32(groundWidth))
+            var enemyYPosition = CGFloat(arc4random_uniform(UInt32(backgroundHeight - groundHeight)) + UInt32(groundHeight))
+            var enemySpawnPoint = ccp((enemyXPosition), (enemyYPosition))
             var spawnedEnemy = CCBReader.load("Enemies/Slime") as! Enemy
-            var enemyDict: [Int : String] = [1: "Slime" , 2: "Bat"]
-            var enemyDifficultyDict: [Int : enemyDifficultyLevel] = [1: .Lowest , 2: .Lower , 3: .Middle , 4: .Higher , 5: .Highest]
             
             //optional unwrapping for string to find enemy file
             if let enemyFileTypeString = enemyDict[randomEnemyTypeNumber] {
-                println(enemyFileTypeString)
                 spawnedEnemy = CCBReader.load("Enemies/\(enemyFileTypeString)") as! Enemy
+                
             //allEnemiesSingleton.sharedInstance.allEnemies?.append(spawnedEnemy)
             }
             
@@ -396,11 +398,11 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
                 enemyDifficultyFinal = raiseDifficultyCurve
             }
             
-
-            //place enemy
-                enemyXPosition = arc4random_uniform(UInt32(backgroundWidth - groundWidth)) + UInt32(groundWidth)
-                enemyYPosition = arc4random_uniform(UInt32(backgroundHeight - groundHeight)) + UInt32(groundHeight)
-                enemySpawnPoint = ccp(CGFloat(enemyXPosition), CGFloat(enemyYPosition))
+            //assign enemy difficulty with decided number
+            if let enemyDiff = enemyDifficultyDict[enemyDifficultyFinal] {
+                spawnedEnemy.enemyDifficulty = enemyDiff
+                println("enemyDifficultyFinal: \(enemyDifficultyFinal) and enemyDifficultyDict: \(enemyDifficultyDict[enemyDifficultyFinal])")
+            }
             
             //adjust enemy position in case it is on top of another enemy or the character on spawn
 //            if background.boundingBox().contains(enemySpawnPoint)
@@ -408,12 +410,8 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
             spawnedEnemy.characterReference = character
             spawnedEnemy.backgroundReference = background
             spawnedEnemy.position = enemySpawnPoint
-            if let enemyDiff = enemyDifficultyDict[enemyDifficultyFinal] {
-                spawnedEnemy.enemyDifficulty = enemyDiff
-            }
             
-            
-            gamePhysicsNode.addChild(spawnedEnemy)
+            room.addChild(spawnedEnemy)
         }
         
     }
@@ -465,12 +463,13 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         else if character.position.x <= background.boundingBox().width - 10 {
             character.canMoveRight = true
         }
+
         
         //check if character is under the level
-        if character.position.y <= background.boundingBox().height {
+        if character.position.y <= background.boundingBox().origin.y {
             userInteractionEnabled = false
-            self.paused = true
             
+            self.paused = true
             var gameOverScreen = CCBReader.load("GameOver", owner: self) as! GameOver
             self.addChild(gameOverScreen)
         }

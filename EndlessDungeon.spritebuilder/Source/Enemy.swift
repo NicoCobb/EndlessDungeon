@@ -26,6 +26,7 @@ class Enemy: CCSprite {
     
     weak var characterReference: CCSprite!
     weak var backgroundReference: CCSprite!
+    weak var currentGroundReference: CCSprite!
     
     //COLOR CHANGES ARE TEMPORARY UNTIL FINAL ART
     func didLoadFromCCB () {
