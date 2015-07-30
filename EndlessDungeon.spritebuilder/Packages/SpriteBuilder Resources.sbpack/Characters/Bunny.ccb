@@ -69,8 +69,8 @@
 					<key>collisionMask</key>
 					<array>
 						<string>coin</string>
-						<string>ground</string>
 						<string>enemy</string>
+						<string>food</string>
 					</array>
 					<key>collisionType</key>
 					<string>characterBody</string>
@@ -217,8 +217,6 @@
 						<array/>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -417,9 +415,11 @@
 			<key>collisionCategories</key>
 			<array/>
 			<key>collisionMask</key>
-			<array/>
+			<array>
+				<string>ground</string>
+			</array>
 			<key>collisionType</key>
-			<string></string>
+			<string>characterContainerNode</string>
 			<key>cornerRadius</key>
 			<real>0.0</real>
 			<key>density</key>
@@ -582,6 +582,8 @@
 				<array/>
 			</dict>
 		</array>
+		<key>selected</key>
+		<true/>
 	</dict>
 	<key>notes</key>
 	<array/>

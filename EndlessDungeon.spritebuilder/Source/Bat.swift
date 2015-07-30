@@ -14,8 +14,7 @@ class Bat: Enemy {
     //characterReference is a reference variable to the gameplay's character
     
     
-    override func didLoadFromCCB() {
-        super.didLoadFromCCB()
+    func didLoadFromCCB() {
         scale = 0.5
         enemySubType = .Aerial
         scheduleOnce("moveUp", delay: 1)

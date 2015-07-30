@@ -64,6 +64,7 @@
 				<string>enemy</string>
 				<string>character</string>
 				<string>coin</string>
+				<string>food</string>
 			</array>
 			<key>collisionType</key>
 			<string>ground</string>

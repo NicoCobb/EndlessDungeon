@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>26</integer>
+	<integer>27</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -180,7 +180,7 @@
 						<key>value</key>
 						<array>
 							<real>280.05584716796875</real>
-							<real>-89.217445373535156</real>
+							<real>-93.063682556152344</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -518,8 +518,6 @@
 						<string>Rooms/Ground.ccb</string>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
