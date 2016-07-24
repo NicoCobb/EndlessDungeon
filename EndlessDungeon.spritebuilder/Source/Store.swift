@@ -19,7 +19,7 @@ class Store: CCScene {
     func openWeapons() {
         disableButtons()
         
-        var weaponsScreen = CCBReader.load("WeaponUpgrades", owner: self)
+        var weaponsScreen = CCBReader.load("Store/WeaponUpgrades", owner: self)
         weaponsScreen.position = ccp(contentSizeInPoints.width / 2, contentSizeInPoints.height / 2)
         self.addChild(weaponsScreen)
     }
@@ -27,7 +27,7 @@ class Store: CCScene {
     func openStats() {
         disableButtons()
         
-        var statScreen = CCBReader.load("StatUpgrades", owner: self)
+        var statScreen = CCBReader.load("Store/StatUpgrades", owner: self)
         statScreen.position = ccp(contentSizeInPoints.width / 2, contentSizeInPoints.height / 2)
         self.addChild(statScreen)
     }
@@ -35,7 +35,7 @@ class Store: CCScene {
     func openBonuses() {
         disableButtons()
         
-        var bonusScreen = CCBReader.load("BonusUpgrades", owner: self)
+        var bonusScreen = CCBReader.load("Store/BonusUpgrades", owner: self)
         bonusScreen.position = ccp(contentSizeInPoints.width / 2, contentSizeInPoints.height / 2)
         self.addChild(bonusScreen)
     }
@@ -44,21 +44,21 @@ class Store: CCScene {
         enableButtons()
         
         userInteractionEnabled = true
-        removeChildByName("bonusUpgrades")
+        removeChildByName("Store/BonusUpgrades")
     }
     
     func exitWeapons() {
         enableButtons()
         
         userInteractionEnabled = true
-        removeChildByName("weaponUpgrades")
+        removeChildByName("Store/WeaponUpgrades")
     }
     
     func exitStats() {
         enableButtons()
         
         userInteractionEnabled = true
-        removeChildByName("statUpgrades")
+        removeChildByName("Store.StatUpgrades")
     }
     
     func enterDungeon() {

@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>27</integer>
+	<integer>29</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -156,6 +156,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -193,8 +216,8 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>7.9871540069580078</real>
-							<real>0.67400491237640381</real>
+							<real>4.0406899452209473</real>
+							<real>0.80000001192092896</real>
 							<false/>
 							<integer>0</integer>
 						</array>
@@ -218,6 +241,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -280,6 +326,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -342,6 +411,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -404,6 +496,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -466,6 +581,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -528,6 +666,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -590,6 +751,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -652,6 +836,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -675,7 +882,7 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>1019.064697265625</real>
+							<real>1023.2815551757812</real>
 							<real>-295.71896362304688</real>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -714,6 +921,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -776,6 +1006,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -838,6 +1091,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -900,6 +1176,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -962,6 +1261,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -1024,6 +1346,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -1086,6 +1431,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -1148,6 +1516,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -1210,6 +1601,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -1272,6 +1686,29 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+				</array>
 				<key>displayName</key>
 				<string>CCBFile</string>
 				<key>memberVarAssignmentName</key>
@@ -1386,6 +1823,171 @@
 						<string>Rooms/DoorRoom.ccb</string>
 					</dict>
 				</array>
+			</dict>
+			<dict>
+				<key>UUID</key>
+				<integer>27</integer>
+				<key>baseClass</key>
+				<string>CCBFile</string>
+				<key>children</key>
+				<array/>
+				<key>customClass</key>
+				<string></string>
+				<key>customProperties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>isEndRight</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>1</string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>isEndLeft</string>
+						<key>optimized</key>
+						<false/>
+						<key>type</key>
+						<integer>2</integer>
+						<key>value</key>
+						<string>0</string>
+					</dict>
+				</array>
+				<key>displayName</key>
+				<string>Ground</string>
+				<key>memberVarAssignmentName</key>
+				<string></string>
+				<key>memberVarAssignmentType</key>
+				<integer>1</integer>
+				<key>properties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>name</string>
+						<key>type</key>
+						<string>StringSimple</string>
+						<key>value</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>position</string>
+						<key>type</key>
+						<string>Position</string>
+						<key>value</key>
+						<array>
+							<real>1132.6414794921875</real>
+							<real>-93.063682556152344</real>
+							<integer>0</integer>
+							<integer>0</integer>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>scale</string>
+						<key>type</key>
+						<string>ScaleLock</string>
+						<key>value</key>
+						<array>
+							<real>4.0409998893737793</real>
+							<real>0.80000001192092896</real>
+							<false/>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>ccbFile</string>
+						<key>type</key>
+						<string>CCBFile</string>
+						<key>value</key>
+						<string>Rooms/Ground.ccb</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>UUID</key>
+				<integer>28</integer>
+				<key>baseClass</key>
+				<string>CCNode</string>
+				<key>children</key>
+				<array/>
+				<key>customClass</key>
+				<string></string>
+				<key>displayName</key>
+				<string>safeZone</string>
+				<key>memberVarAssignmentName</key>
+				<string>safeZone</string>
+				<key>memberVarAssignmentType</key>
+				<integer>2</integer>
+				<key>properties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>name</string>
+						<key>type</key>
+						<string>StringSimple</string>
+						<key>value</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>position</string>
+						<key>type</key>
+						<string>Position</string>
+						<key>value</key>
+						<array>
+							<real>0.0</real>
+							<real>325.09237670898438</real>
+							<integer>0</integer>
+							<integer>0</integer>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>contentSize</string>
+						<key>type</key>
+						<string>Size</string>
+						<key>value</key>
+						<array>
+							<real>100</real>
+							<real>100</real>
+							<integer>0</integer>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>anchorPoint</string>
+						<key>type</key>
+						<string>Point</string>
+						<key>value</key>
+						<array>
+							<real>0.0</real>
+							<real>0.0</real>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>scale</string>
+						<key>type</key>
+						<string>ScaleLock</string>
+						<key>value</key>
+						<array>
+							<real>3.1581976413726807</real>
+							<real>1.8357441425323486</real>
+							<false/>
+							<integer>0</integer>
+						</array>
+					</dict>
+				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>

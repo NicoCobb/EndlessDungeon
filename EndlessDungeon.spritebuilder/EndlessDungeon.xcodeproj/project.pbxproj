@@ -18,10 +18,17 @@
 		774B5FA71B6061D1009F424E /* Bat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B5FA61B6061D1009F424E /* Bat.swift */; };
 		774B5FAB1B6143F0009F424E /* AllEnemiesSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B5FAA1B6143F0009F424E /* AllEnemiesSingleton.swift */; };
 		774B5FB31B62CFB6009F424E /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B5FB21B62CFB6009F424E /* GameOver.swift */; };
+		779691C71B713B33003C74E2 /* Dictionaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779691C61B713B33003C74E2 /* Dictionaries.swift */; };
+		779691CD1B725415003C74E2 /* GameStateSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779691CC1B725415003C74E2 /* GameStateSingleton.swift */; };
+		77BE869D1B6FADAF008AB714 /* WeaponUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BE869C1B6FADAF008AB714 /* WeaponUpgrades.swift */; };
+		77BE869F1B6FAE21008AB714 /* BonusUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BE869E1B6FAE21008AB714 /* BonusUpgrades.swift */; };
+		77BE86A11B6FAE73008AB714 /* StatUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BE86A01B6FAE73008AB714 /* StatUpgrades.swift */; };
+		77BE86A71B6FE594008AB714 /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BE86A61B6FE594008AB714 /* Weapon.swift */; };
 		77D92BFD1B5D336F00C15807 /* DoorRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D92BFC1B5D336F00C15807 /* DoorRoom.swift */; };
 		77EDB6A61B54335C00742E4B /* Gameplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EDB6A51B54335C00742E4B /* Gameplay.swift */; };
 		77EDB6AC1B54395600742E4B /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EDB6AB1B54395600742E4B /* Character.swift */; };
 		77F42CE81B69AD4F00DE3F1B /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F42CE71B69AD4F00DE3F1B /* Store.swift */; };
+		77F42CEC1B6BB86300DE3F1B /* Ground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F42CEB1B6BB86300DE3F1B /* Ground.swift */; };
 		7A046D7919E84ED5004C4763 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A046D7519E84C36004C4763 /* MainScene.swift */; };
 		7A10CE5619F32FB0001673C3 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A046D7519E84C36004C4763 /* MainScene.swift */; };
 		7A40360419DDEE84007B6E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A40360319DDEE84007B6E8F /* main.m */; };
@@ -180,10 +187,17 @@
 		774B5FA61B6061D1009F424E /* Bat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Bat.swift; path = Source/Bat.swift; sourceTree = "<group>"; };
 		774B5FAA1B6143F0009F424E /* AllEnemiesSingleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllEnemiesSingleton.swift; path = Source/AllEnemiesSingleton.swift; sourceTree = "<group>"; };
 		774B5FB21B62CFB6009F424E /* GameOver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameOver.swift; path = Source/GameOver.swift; sourceTree = "<group>"; };
+		779691C61B713B33003C74E2 /* Dictionaries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Dictionaries.swift; path = Source/Dictionaries.swift; sourceTree = "<group>"; };
+		779691CC1B725415003C74E2 /* GameStateSingleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameStateSingleton.swift; path = Source/GameStateSingleton.swift; sourceTree = "<group>"; };
+		77BE869C1B6FADAF008AB714 /* WeaponUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeaponUpgrades.swift; path = Source/WeaponUpgrades.swift; sourceTree = "<group>"; };
+		77BE869E1B6FAE21008AB714 /* BonusUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BonusUpgrades.swift; path = Source/BonusUpgrades.swift; sourceTree = "<group>"; };
+		77BE86A01B6FAE73008AB714 /* StatUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatUpgrades.swift; path = Source/StatUpgrades.swift; sourceTree = "<group>"; };
+		77BE86A61B6FE594008AB714 /* Weapon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Weapon.swift; path = Source/Weapon.swift; sourceTree = "<group>"; };
 		77D92BFC1B5D336F00C15807 /* DoorRoom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoorRoom.swift; path = Source/DoorRoom.swift; sourceTree = "<group>"; };
 		77EDB6A51B54335C00742E4B /* Gameplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Gameplay.swift; path = Source/Gameplay.swift; sourceTree = "<group>"; };
 		77EDB6AB1B54395600742E4B /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Character.swift; path = Source/Character.swift; sourceTree = "<group>"; };
 		77F42CE71B69AD4F00DE3F1B /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Store.swift; path = Source/Store.swift; sourceTree = "<group>"; };
+		77F42CEB1B6BB86300DE3F1B /* Ground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ground.swift; path = Source/Ground.swift; sourceTree = "<group>"; };
 		7A046D7519E84C36004C4763 /* MainScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainScene.swift; path = Source/MainScene.swift; sourceTree = "<group>"; };
 		7A4035FF19DDEE84007B6E8F /* EndlessDungeon Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EndlessDungeon Mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A40360219DDEE84007B6E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Platforms/Mac/Info.plist; sourceTree = "<group>"; };
@@ -340,6 +354,30 @@
 			path = "drawable-xxhdpi";
 			sourceTree = "<group>";
 		};
+		779691CA1B713B3A003C74E2 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				77BE86A61B6FE594008AB714 /* Weapon.swift */,
+				779691C61B713B33003C74E2 /* Dictionaries.swift */,
+				77BE86A01B6FAE73008AB714 /* StatUpgrades.swift */,
+				77BE869E1B6FAE21008AB714 /* BonusUpgrades.swift */,
+				77BE869C1B6FADAF008AB714 /* WeaponUpgrades.swift */,
+				779691CC1B725415003C74E2 /* GameStateSingleton.swift */,
+				77F42CE71B69AD4F00DE3F1B /* Store.swift */,
+			);
+			name = Store;
+			sourceTree = "<group>";
+		};
+		779691CB1B713B6F003C74E2 /* Enemies */ = {
+			isa = PBXGroup;
+			children = (
+				774B5FA61B6061D1009F424E /* Bat.swift */,
+				77439CEA1B5FD3DA009A01F8 /* Slime.swift */,
+				772F35DD1B569CD9008FED69 /* Enemy.swift */,
+			);
+			name = Enemies;
+			sourceTree = "<group>";
+		};
 		7A40362019DDEF0D007B6E8F /* Platforms */ = {
 			isa = PBXGroup;
 			children = (
@@ -461,19 +499,18 @@
 			isa = PBXGroup;
 			children = (
 				7A40362019DDEF0D007B6E8F /* Platforms */,
-				772F35EF1B599D14008FED69 /* CoinAnimation.swift */,
+				7A046D7519E84C36004C4763 /* MainScene.swift */,
+				774B5FB21B62CFB6009F424E /* GameOver.swift */,
+				77EDB6A51B54335C00742E4B /* Gameplay.swift */,
+				779691CB1B713B6F003C74E2 /* Enemies */,
+				779691CA1B713B3A003C74E2 /* Store */,
+				77EDB6AB1B54395600742E4B /* Character.swift */,
+				772F35DB1B55D0D9008FED69 /* Coin.swift */,
 				772F35E11B56DED8008FED69 /* Door.swift */,
 				77D92BFC1B5D336F00C15807 /* DoorRoom.swift */,
-				772F35DB1B55D0D9008FED69 /* Coin.swift */,
-				772F35DD1B569CD9008FED69 /* Enemy.swift */,
-				77439CEA1B5FD3DA009A01F8 /* Slime.swift */,
-				77F42CE71B69AD4F00DE3F1B /* Store.swift */,
-				774B5FA61B6061D1009F424E /* Bat.swift */,
-				7A046D7519E84C36004C4763 /* MainScene.swift */,
-				77EDB6A51B54335C00742E4B /* Gameplay.swift */,
-				774B5FB21B62CFB6009F424E /* GameOver.swift */,
-				77EDB6AB1B54395600742E4B /* Character.swift */,
+				77F42CEB1B6BB86300DE3F1B /* Ground.swift */,
 				771F1EF71B6686980010C1B3 /* Food.swift */,
+				772F35EF1B599D14008FED69 /* CoinAnimation.swift */,
 				774B5FAA1B6143F0009F424E /* AllEnemiesSingleton.swift */,
 				D352B48019EC608A00829775 /* MetalShaders */,
 			);
@@ -854,19 +891,26 @@
 				77D92BFD1B5D336F00C15807 /* DoorRoom.swift in Sources */,
 				774B5FAB1B6143F0009F424E /* AllEnemiesSingleton.swift in Sources */,
 				771F1EF81B6686980010C1B3 /* Food.swift in Sources */,
+				779691C71B713B33003C74E2 /* Dictionaries.swift in Sources */,
 				77F42CE81B69AD4F00DE3F1B /* Store.swift in Sources */,
 				77439CEB1B5FD3DA009A01F8 /* Slime.swift in Sources */,
 				772F35DE1B569CD9008FED69 /* Enemy.swift in Sources */,
 				772F35E21B56DED8008FED69 /* Door.swift in Sources */,
 				772F35DC1B55D0D9008FED69 /* Coin.swift in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
+				77BE869D1B6FADAF008AB714 /* WeaponUpgrades.swift in Sources */,
+				77BE869F1B6FAE21008AB714 /* BonusUpgrades.swift in Sources */,
 				77EDB6A61B54335C00742E4B /* Gameplay.swift in Sources */,
+				77BE86A11B6FAE73008AB714 /* StatUpgrades.swift in Sources */,
 				774B5FA71B6061D1009F424E /* Bat.swift in Sources */,
 				774B5FB31B62CFB6009F424E /* GameOver.swift in Sources */,
 				772F35F01B599D14008FED69 /* CoinAnimation.swift in Sources */,
+				77F42CEC1B6BB86300DE3F1B /* Ground.swift in Sources */,
+				77BE86A71B6FE594008AB714 /* Weapon.swift in Sources */,
 				77EDB6AC1B54395600742E4B /* Character.swift in Sources */,
 				7A046D7919E84ED5004C4763 /* MainScene.swift in Sources */,
 				5B121038197487F2004C1E1D /* AppDelegate.m in Sources */,
+				779691CD1B725415003C74E2 /* GameStateSingleton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

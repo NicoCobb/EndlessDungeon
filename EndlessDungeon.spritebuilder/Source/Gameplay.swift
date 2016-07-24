@@ -9,13 +9,17 @@
 
 import Foundation
 
-var totalCoins: Int = NSUserDefaults.standardUserDefaults().integerForKey("myCoins") ?? 0 {
+var totalCoins: Int = NSUserDefaults.standardUserDefaults().integerForKey("myCoins") {
     didSet {
         NSUserDefaults.standardUserDefaults().setInteger(totalCoins, forKey:"myCoins")
         NSUserDefaults.standardUserDefaults().synchronize()
     }
 }
 
+//protocol characterWorldPositionDelegate {
+//    var characterWorldPosition: CGPoint
+//    func retrieveCharacterPosition
+//}
 
 class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     
@@ -24,11 +28,13 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     weak var buttonNode: CCNode!
     weak var gamePhysicsNode: CCPhysicsNode!
     weak var exitDungeonLayer: CCNode!
+    weak var safeZone: CCNode!
     
     weak var buttonRight: CCButton!
     weak var buttonLeft: CCButton!
     weak var buttonJump: CCButton!
     weak var buttonContinue: CCButton!
+//    weak var buttonAttack: CCButton!
     
     weak var character: Character!
     weak var background: CCSprite!
@@ -50,6 +56,8 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     var roomNumber = 1
     var totalRooms = 3
     var totalEnemyTypes = 2
+    var roomsLeft = 20
+    var invulnerableTime = CCActionDelay(duration: 1)
     var actionFollow: CCActionFollow?
     var currentDoor: Door?
     var room: CCNode!
@@ -135,7 +143,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
             enemy.enemyCollisionHappening = true
             if character.damage >= enemy.health {
                 //add score
-                scoreCount += 10
+                scoreCount += Int(enemy.killScore)
                 scoreLabel.string = "\(scoreCount)"
                 
                 //sometimes spawn coin when enemy dies
@@ -207,7 +215,6 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
             
             //enable invulnerability for set amount of time on hit
             character.becomeInvulnerable()
-            var invulnerableTime = CCActionDelay(duration: 1)
             var changeInvulnerableState = CCActionCallFunc(target: character, selector: "endInvulnerable")
             runAction(CCActionSequence(array: [invulnerableTime, changeInvulnerableState]))
             enemy.enemyCollisionHappening = false
@@ -217,9 +224,18 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         
     }
     
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterContainerNode: CCSprite!, ground: CCSprite!) -> Bool {
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterContainerNode: CCSprite!, jumpCheck: CCSprite!) -> Bool {
         character.jumpsLeft = character.maxJumps
         return true
+    }
+    
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, characterContainerNode: CCNode!, ground: CCNode!) -> Bool {
+        character.onGround = true
+        return true
+    }
+    
+    func ccPhysicsCollisionSeparate(pair: CCPhysicsCollisionPair!, characterContainerNode: CCNode!, ground: CCNode!) {
+        character.onGround = false
     }
     
     //character body and door collision
@@ -238,19 +254,13 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         currentDoor = nil
     }
     
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, enemy: Enemy!, ground: CCSprite!) -> Bool {
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, enemy: Enemy!, ground: Ground!) -> Bool {
         if enemy != nil && enemy.enemySubType == .Grounded {
             enemy.currentGroundReference = ground
-            enemy.numberOfGroundPieces += 1
         }
         return true
     }
     
-    func ccPhysicsCollisionSeparate(pair: CCPhysicsCollisionPair!, enemy: Enemy!, ground: CCSprite!) {
-        if enemy != nil && enemy.enemySubType == .Grounded {
-            enemy.numberOfGroundPieces -= 1
-        }
-    }
     
 //MARK: buttons
     func turnLeft() {
@@ -263,8 +273,17 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     
     func jump() {
         if character.jumpsLeft > 0 {
+            character.physicsBody.applyImpulse(ccp(0,0))
             character.physicsBody.applyImpulse(ccp(0, 400))
             character.jumpsLeft -= 1
+        }
+    }
+    
+    func attack() {
+        if character.onGround == true {
+            character.groundAttack()
+        } else {
+            character.airAttack()
         }
     }
     
@@ -313,7 +332,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     }
     
     func goToStore() {
-        let storeScene = CCBReader.loadAsScene("Store")
+        let storeScene = CCBReader.loadAsScene("Store/Store")
         CCDirector.sharedDirector().presentScene(storeScene)
     }
 //MARK: Exit dungeon methods
@@ -329,11 +348,12 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     
 //MARK: level load functions
     func setCharacterPosition(nextLevel: Int) {
-        if nextLevel == 1 || nextLevel == 2 {
+        if nextLevel == 1 {
             character.position = ccp(150, 150)
-        }
-        if nextLevel == 3 {
-            character.position = ccp(150, 270)
+        } else if nextLevel == 2 {
+            character.position = ccp(100,150)
+        } else if nextLevel == 3 {
+            character.position = ccp(150, 350)
         }
     }
     
@@ -361,6 +381,9 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         
         //reset jump
         character.jumpsLeft = character.maxJumps
+        
+        //decrease rooms Left count
+        roomsLeft--
         
         setCharacterPosition(nextRoomNumber)
         generateEnemies()
@@ -390,24 +413,30 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         println("Enemies loaded into room: \(randomEnemyCount)")
         
         //create however many enemies are in randomEnemyCount
-        for enemyNumber in 0...randomEnemyCount {
+        for enemyNumber in 1...randomEnemyCount {
             var randomEnemyTypeNumber = Int(arc4random_uniform(UInt32(totalEnemyTypes)) + 1)
             var chanceOfHigherDifficulty = arc4random_uniform(UInt32(2))
             var raiseDifficultyCurve = Int(levelNumber / 20)
             var enemyDifficultyFinal = 1
             
-            //place enemy
+            //select enemy location
             var enemyXPosition = CGFloat(arc4random_uniform(UInt32(backgroundWidth - groundWidth)) + UInt32(groundWidth))
             var enemyYPosition = CGFloat(arc4random_uniform(UInt32(backgroundHeight - groundHeight)) + UInt32(groundHeight))
             var enemySpawnPoint = ccp((enemyXPosition), (enemyYPosition))
             var spawnedEnemy = CCBReader.load("Enemies/Slime") as! Enemy
             
+            while safeZone.boundingBox().contains(enemySpawnPoint) {
+                enemyXPosition = CGFloat(arc4random_uniform(UInt32(backgroundWidth - groundWidth)) + UInt32(groundWidth))
+                enemyYPosition = CGFloat(arc4random_uniform(UInt32(backgroundHeight - groundHeight)) + UInt32(groundHeight))
+                enemySpawnPoint = ccp((enemyXPosition), (enemyYPosition))
+            }
+            
             //optional unwrapping for string to find enemy file
-            //            if let enemyFileTypeString = enemyDict[randomEnemyTypeNumber] {
-            //                spawnedEnemy = CCBReader.load("Enemies/\(enemyFileTypeString)") as! Enemy
-            //
-            //            //allEnemiesSingleton.sharedInstance.allEnemies?.append(spawnedEnemy)
-            //            }
+            if let enemyFileTypeString = enemyDict[randomEnemyTypeNumber] {
+                spawnedEnemy = CCBReader.load("Enemies/\(enemyFileTypeString)") as! Enemy
+
+            //allEnemiesSingleton.sharedInstance.allEnemies?.append(spawnedEnemy)
+            }
             
             //set the difficulty level of the enemies
             if ((levelNumber % 20) / 10) >= 1 {
@@ -421,6 +450,11 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
                 spawnedEnemy.enemyDifficulty = enemyDiff
                 println("enemyDifficultyFinal: \(enemyDifficultyFinal) and enemyDifficultyDict: \(enemyDifficultyDict[enemyDifficultyFinal])")
             }
+            
+            //give enemy kill score based on difficulty level
+            var randomScoreChange = arc4random_uniform(8)
+            var killScoreRandomizer: Double = (100.0 * Double(enemyDifficultyFinal)) - pow(Double(randomScoreChange), 2.0)
+            spawnedEnemy.killScore = killScoreRandomizer
             
             //adjust enemy position in case it is on top of another enemy or the character on spawn
             //            if background.boundingBox().contains(enemySpawnPoint)
@@ -488,6 +522,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         //check for character is at left boundary
         if character.position.x <= 10 {
             character.canMoveLeft = false
+            character.physicsBody.velocity.x = 0
         }
         else if character.position.x >= 10 {
                 character.canMoveLeft = true
@@ -496,7 +531,7 @@ class Gameplay: CCNode, CCPhysicsCollisionDelegate {
         //check for if character is at right boundary
         if character.position.x >= background.boundingBox().width - 10 {
             character.canMoveRight = false
-            
+            character.physicsBody.velocity.x = 0
         }
         else if character.position.x <= background.boundingBox().width - 10 {
             character.canMoveRight = true

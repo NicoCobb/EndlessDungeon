@@ -17,10 +17,14 @@ enum enemyDifficultyLevel {
 }
 
 class Enemy: CCSprite {
+    weak var characterReference: CCSprite!
+    weak var backgroundReference: CCSprite!
+    weak var currentGroundReference: Ground!
+    
     var damage = 1
     var health = 1
     var enemySpeed = 2
-    var numberOfGroundPieces = 0
+    var killScore = 10.0
     
     var enemyCollisionHappening = false
     var enemySubType: enemySubTyping = .Grounded
@@ -55,9 +59,6 @@ class Enemy: CCSprite {
         }
     }
     
-    weak var characterReference: CCSprite!
-    weak var backgroundReference: CCSprite!
-    weak var currentGroundReference: CCSprite!
     
     //COLOR CHANGES ARE TEMPORARY UNTIL FINAL ART
     

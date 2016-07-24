@@ -2,8 +2,7 @@ import Foundation
 
 class MainScene: CCNode {
     
-    var playButton: CCButton!
-    
+    weak var playButton: CCButton!
     
     func play() {
         let gameplayScene = CCBReader.loadAsScene("Gameplay")
@@ -11,7 +10,7 @@ class MainScene: CCNode {
     }
     
     func store() {
-        let storeScene = CCBReader.loadAsScene("Store")
+        let storeScene = CCBReader.loadAsScene("Store/Store")
         CCDirector.sharedDirector().presentScene(storeScene)
     }
 }
